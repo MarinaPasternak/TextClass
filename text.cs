@@ -15,7 +15,7 @@ namespace ConsoleApp1
         static List<String> text = new List<String>();
         abstract class Text
         {
-           
+
 
             public void AddString()
             {
@@ -29,25 +29,25 @@ namespace ConsoleApp1
             public void DelString()
             {
                 Console.WriteLine("Введіть номер строки, яку необхідно видалити у тексті");
-                int index = int.Parse(Console.ReadLine())-1;
+                int index = int.Parse(Console.ReadLine()) - 1;
                 text.RemoveAt(index);
                 int i = 1;
                 foreach (String obj in text)
                 {
-                    
-                        obj.id = i;
-                        i++;
-                        
-                    
+
+                    obj.id = i;
+                    i++;
+
+
                 }
 
             }
 
             public void Display()
             {
-                foreach ( String obj in text)
+                foreach (String obj in text)
                 {
-                    Console.WriteLine("Номер строки "+ obj.id + " "+ obj.Content);
+                    Console.WriteLine("Номер строки " + obj.id + " " + obj.Content);
                 }
                 Console.WriteLine("Натисніть ентер");
                 Console.ReadLine();
@@ -73,12 +73,12 @@ namespace ConsoleApp1
                         lenMax = obj.Content.Length;
                         NumofMax = obj.id;
                     }
-   
+
                 }
-            Console.WriteLine("Найдовша строка");
-            Console.WriteLine("Номер строки " + NumofMax + " " + maxContent+" Довжина "+ lenMax);
-            Console.WriteLine("Натисніть ентер");
-            Console.ReadLine();
+                Console.WriteLine("Найдовша строка");
+                Console.WriteLine("Номер строки " + NumofMax + " " + maxContent + " Довжина " + lenMax);
+                Console.WriteLine("Натисніть ентер");
+                Console.ReadLine();
             }
 
             public int AllChar()
@@ -86,7 +86,7 @@ namespace ConsoleApp1
                 int count = 0;
                 foreach (String obj in text)
                 {
-                    count +=obj.Content.Length;
+                    count += obj.Content.Length;
                 }
                 return count;
             }
@@ -94,28 +94,28 @@ namespace ConsoleApp1
             public void PersentOfNumber()
             {
                 int allSymbolCount = AllChar();
-                
+
                 double countNumber = 0;
                 foreach (String obj in text)
                 {
-                    for(int i=0;i<obj.Content.Length;i++)
-                    if (char.IsNumber(obj.Content[i]))
-                    {
+                    for (int i = 0; i < obj.Content.Length; i++)
+                        if (char.IsNumber(obj.Content[i]))
+                        {
                             countNumber++;
-                    }
+                        }
 
                 }
                 double persent = countNumber / allSymbolCount * 100.0;
                 Console.WriteLine("Кількість символів у тексті  " + allSymbolCount);
                 Console.WriteLine("Кількість цифр у тексті  " + countNumber);
-                Console.WriteLine("Кількість процентів цифр у тексті  "+Math.Round(persent,2)+'%');
+                Console.WriteLine("Кількість процентів цифр у тексті  " + Math.Round(persent, 2) + '%');
                 Console.WriteLine("Натисніть ентер");
                 Console.ReadLine();
             }
 
 
         }
-        class String:Text
+        class String : Text
         {
             public string Content
             {
@@ -135,37 +135,48 @@ namespace ConsoleApp1
 
         }
 
-
-        public static int CheckNum(string s)
+        public static bool Check(string s)
         {
-            bool isNumber = false;
             int countNumber = 0;
-            
+            bool isNumber = false;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (char.IsNumber(s[i]))
+                {
+                    countNumber++;
+                }
+            }
+            if (countNumber == s.Length)
+            {
+                isNumber = true;
+            }
+            else
+            {
+                isNumber = false;
+
+            }
+            return isNumber;
+        }
+
+
+        public static int GetNum(string s)
+        {
+            bool isNumber = Check(s);
+
             while (!isNumber)
             {
-                
-               for (int i = 0; i < s.Length; i++){ 
-                    if (char.IsNumber(s[i]))
-                    {
-                        countNumber++;
-                    }
-               }
-                    if (countNumber == s.Length)
-                    {
-                        isNumber = true;
-                    }
-                    else
-                    {
-                        isNumber = false;
-                        Console.WriteLine("Такого пункту меню немає");
-                        Console.WriteLine("Введіть номер пункту меню");
-                        s = Console.ReadLine();
-                    }
-              
+
+                Console.WriteLine("Такого пункту меню немає");
+                Console.WriteLine("Введіть номер пункту меню");
+                s = Console.ReadLine();
+                isNumber = Check(s);
+
             }
             int num = int.Parse(s);
             return num;
         }
+
+
         static void Main(string[] args)
         {
             String str = new String();
@@ -180,7 +191,7 @@ namespace ConsoleApp1
             Console.WriteLine("   ");
             Console.WriteLine("Введіть номер пункту меню");
             string point = Console.ReadLine();
-            int pointOfMenu = CheckNum(point);
+            int pointOfMenu = GetNum(point);
             do
             {
                 switch (pointOfMenu)
@@ -190,28 +201,28 @@ namespace ConsoleApp1
                         Console.WriteLine("Введіть номер пункту меню");
                         point = "";
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                     case 2:
                         str.DelString();
                         point = "";
                         Console.WriteLine("Введіть номер пункту меню");
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                     case 3:
                         str.DellAll();
                         point = "";
                         Console.WriteLine("Введіть номер пункту меню");
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                     case 4:
                         str.MaxString();
                         point = "";
                         Console.WriteLine("Введіть номер пункту меню");
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                     case 5:
                         int num = str.AllChar();
@@ -219,27 +230,27 @@ namespace ConsoleApp1
                         Console.WriteLine(num);
                         Console.WriteLine("Введіть номер пункту меню");
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                     case 6:
                         str.PersentOfNumber();
                         point = "";
                         Console.WriteLine("Введіть номер пункту меню");
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                     case 7:
                         str.Display();
                         point = "";
                         Console.WriteLine("Введіть номер пункту меню");
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                     default:
                         Console.WriteLine("Такого пункту меню немає");
                         Console.WriteLine("Введіть номер пункту меню");
                         point = Console.ReadLine();
-                        pointOfMenu = CheckNum(point);
+                        pointOfMenu = GetNum(point);
                         break;
                 }
             }
@@ -247,8 +258,8 @@ namespace ConsoleApp1
             {
                 Console.ReadLine();
             }
-            
-            
-            }
+
+
+        }
     }
 }
